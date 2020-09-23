@@ -1,0 +1,220 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<body>
+		
+
+<div id="formDiv">
+				<form action="#">
+					Enter LID: <input type="text" name="lid" id="lid" value="lid">
+					
+					<br>Name and (C/O): <input type="text" name="name" id="name" value="Name and/or C/O"> 
+					
+					<br>Phone Number: <input type="text" name="phone" id="phone" value="+91 ">
+					
+					<br>Address Line 1: <input type="text" name="address1" id="address1" value="Address Line 1"> 
+
+					<br>Address Line 2: <input type="text" name="address2" id="address2" value="Address Line 2"> 
+					
+					<br>Landmark: <input type="text" name="landmark" id="landmark" value="landmark">
+							
+					<br>City: <input type="text" name="city" id="city" value="Hyderabad">
+					
+					<br>State: <input type="text" name="state" id="state" value="Telangana"> 
+
+					<br>Pin: <input type="text" name="pin" id="pin" value="500053"> 	
+						
+						<br />
+					<br /> <input type="submit" value="Submit"
+						onClick="callAddressSubmit()">
+				</form>
+</div>
+	<div id="response1"></div>
+
+	<style>
+#response {
+	font-size: 1rem;
+	color: indianred;
+}
+
+h2 {
+	color: green
+}
+
+#id3 {
+	width: 100%;
+	padding: 15px 5px 15px 5px;
+	margin: 20px 0;
+	display: inline;
+	border: 1px #ccc;
+	border-radius: 4px;
+}
+
+#id2 {
+	width: 100%;
+	padding: 15px 5px 15px 5px;
+	margin: 20px 0;
+	display: inline;
+	border: 1px #ccc;
+	border-radius: 6px;
+}
+
+#id1 {
+	width: 100%;
+	margin: 0px;
+	display: block;
+	font-size: 1.4rem;
+	color: gray;
+	text-align: left;
+}
+
+lable {
+	width: 20%;
+	margin: 8px 0;
+	display: block;
+	font-size: 2.2rem;
+	color: Green;
+	text-align: center;
+}
+
+input[type=text], select {
+	width: 75%;
+	padding: 12px 20px;
+	margin: 8px 0;
+	display: inline-block;
+	border: 1px solid #ccc;
+	border-radius: 4px;
+	box-sizing: border-box;
+}
+
+input[type=submit] {
+	width: 50%;
+	background-color: #4CAF50;
+	color: white;
+	padding: 14px 60px;
+	margin: 12px 0;
+	border: none;
+	border-radius: 4px;
+	cursor: pointer;
+}
+
+input[type=submit]:hover {
+	background-color: #45a049;
+}
+
+.container {
+	border-radius: 5px;
+	background-color: #f2f2f2;
+	padding: 20px;
+	width: 600px;
+	margin: 0 auto;
+}
+
+input[type=submit] {
+	width: 100%;
+	background-color: #4CAF50;
+	color: white;
+	padding: 14px 20px;
+	margin: 8px 0;
+	border: none;
+	border-radius: 4px;
+	cursor: pointer;
+}
+
+/* Style the tab */
+.tab {
+	overflow: hidden;
+	background-color: #f1f1f1;
+}
+
+/* Style the buttons that are used to open the tab content */
+.tab button {
+	background-color: #4CAF50;
+	color: white;
+	padding: 14px 20px;
+	float: left;
+	border: 1px;
+	outline: none;
+	cursor: pointer;
+}
+
+/* Change background color of buttons on hover */
+.tab button:hover {
+	background-color: #45a049;
+}
+
+/* Create an active/current tablink class */
+.tab button.active {
+	background-color: #3a8c3db3;
+}
+/* Style the tab content */
+.tabcontent {
+	display: none;
+	padding: 6px 12px;
+	border-top: none;
+}
+</style>
+	<script>
+		function callAddressSubmit() {
+			
+			console.log("callAddressSubmit");
+			
+			var today = Date.now();
+			var xhttp = new XMLHttpRequest();
+			
+			var name = document.getElementById("name").value;
+			var phone = document.getElementById("phone").value;
+			var address1 = document.getElementById("address1").value;
+			var address2 = document.getElementById("address1").value;
+			var landmark = document.getElementById("landmark").value;
+			var city = document.getElementById("city").value;
+			var state = document.getElementById("state").value;
+			var pin = document.getElementById("pin").value;
+
+			
+			
+			xhttp.onreadystatechange = function() {
+				console.log("onreadystatechange");
+				document.getElementById("formDiv").innerHTML = "Form Submitted.<br>"+"LID: "+lid+"<br>Name and (C/O): "+name+"<br>Phone Number: "+phone+"<br>Address Line 1: "+address1+"<br>Address Line 2: "+address2+"<br>Landmark: "+landmark+"<br>City: "+city+"<br>State: "+state+"<br>Pin: "+pin;
+				
+				if (this.readyState == 4 && this.status == 200) {
+					console.log("readyState 4 or status 200");
+					document.getElementById("response1").innerHTML = this.responseText
+							+ "<br>200 success response";
+				}else{
+					document.getElementById("response1").innerHTML = this.responseText
+					+ "<br>Error Occurred. Contact Admin";
+				}
+			};
+			var lid = document.getElementById("lid").value;
+			
+			var url = "http://localhost:9001/saveAddressDetails?";
+
+			url+="lid="+lid;
+			url+="&";
+			url+="name="+name;
+			url+="&";
+			url+="phone="+phone;
+			url+="&";
+			url+="address1="+address1;
+			url+="&";
+			url+="address2="+address2;
+			url+="&";
+			url+="landmark="+landmark;
+			url+="&";
+			url+="city="+city;
+			url+="&";
+			url+="state="+state;
+			url+="&";
+			url+="pin="+pin;
+	
+			console.log("url: "+url);
+
+			xhttp.open("GET", url, true);
+			xhttp.send();
+			//windows.open("success.html");    
+		}
+
+		
+	</script>
+</body>
+</html>
